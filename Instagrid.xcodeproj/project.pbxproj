@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7CB769462931277900E73408 /* test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB769442931277900E73408 /* test.swift */; };
 		7CB91CD9292CAABE00E9B094 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB91CD8292CAABE00E9B094 /* AppDelegate.swift */; };
 		7CB91CDB292CAABE00E9B094 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB91CDA292CAABE00E9B094 /* SceneDelegate.swift */; };
 		7CB91CDD292CAABE00E9B094 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB91CDC292CAABE00E9B094 /* ViewController.swift */; };
@@ -36,6 +37,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7CB769452931277900E73408 /* Base */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Base; path = Base.lproj/test.swift; sourceTree = "<group>"; };
 		7CB91CD5292CAABE00E9B094 /* Instagrid.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Instagrid.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7CB91CD8292CAABE00E9B094 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7CB91CDA292CAABE00E9B094 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -103,6 +105,7 @@
 				7CB91CDA292CAABE00E9B094 /* SceneDelegate.swift */,
 				7CB91CDC292CAABE00E9B094 /* ViewController.swift */,
 				7CB91CDE292CAABE00E9B094 /* Main.storyboard */,
+				7CB769442931277900E73408 /* test.swift */,
 				7CB91CE1292CAABF00E9B094 /* Assets.xcassets */,
 				7CB91CE3292CAABF00E9B094 /* LaunchScreen.storyboard */,
 				7CB91CE6292CAABF00E9B094 /* Info.plist */,
@@ -259,6 +262,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7CB91CDD292CAABE00E9B094 /* ViewController.swift in Sources */,
+				7CB769462931277900E73408 /* test.swift in Sources */,
 				7CB91CD9292CAABE00E9B094 /* AppDelegate.swift in Sources */,
 				7CB91CDB292CAABE00E9B094 /* SceneDelegate.swift in Sources */,
 			);
@@ -297,6 +301,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		7CB769442931277900E73408 /* test.swift */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7CB769452931277900E73408 /* Base */,
+			);
+			name = test.swift;
+			sourceTree = "<group>";
+		};
 		7CB91CDE292CAABE00E9B094 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
