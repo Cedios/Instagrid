@@ -7,41 +7,35 @@
 
 import UIKit
 
+
+
 class ViewController: UIViewController {
+    // Buttons in the main view with four images
+    @IBOutlet private weak var topLeftButton: UIButton!
+    @IBOutlet private weak var bottomLeftButton: UIButton!
+    @IBOutlet private weak var topRightButton: UIButton!
+    @IBOutlet private weak var bottomRightButton: UIButton!
+    @IBOutlet private weak var swipeLabel: UILabel!
 
-    @IBOutlet weak var upHidden: UIButton!
-    @IBOutlet weak var downHidden: UIButton!
-
-    @IBOutlet weak var upLargeButton: UIButton!
-    @IBOutlet weak var downLargeButton: UIButton!
-    @IBOutlet weak var showFourButton: UIButton!
+    // Buttons to select the image display
+    @IBOutlet private weak var layoutUpLargeButton: UIButton!
+    @IBOutlet private weak var layoutDownLargeButton: UIButton!
+    @IBOutlet private weak var layoutFourButton: UIButton!
     
-    @IBOutlet weak var blueFrame: UIView!
+    private var selectedButton: UIButton?
     
-    @IBAction func upLarge(_ sender: UIButton) {
-        upHidden.isHidden = true
-        downHidden.isHidden = false
-        upLargeButton.setImage(UIImage(named: "Selected"), for: .normal)
-        downLargeButton.setImage(UIImage(named: "Layout 2"), for: .normal)
-        showFourButton.setImage(UIImage(named: "Layout 3"), for: .normal)
+    // Blue frame containing the four images display
+    @IBOutlet private weak var blueFrame: UIView!
+    
+    private var imagePickerController: UIImagePickerController {
+        let imagePickerController = UIImagePickerController()
+        imagePickerController.sourceType = .photoLibrary
+        imagePickerController.delegate = self
+        imagePickerController.allowsEditing = true
+        return imagePickerController
     }
     
-    @IBAction func downLarge(_ sender: UIButton) {
-        upHidden.isHidden = false
-        downHidden.isHidden = true
-        upLargeButton.setImage(UIImage(named: "Layout 1"), for: .normal)
-        downLargeButton.setImage(UIImage(named: "Selected"), for: .normal)
-        showFourButton.setImage(UIImage(named: "Layout 3"), for: .normal)
-    }
-    
-    @IBAction func showFour(_ sender: UIButton) {
-        upHidden.isHidden = false
-        downHidden.isHidden = false
-        upLargeButton.setImage(UIImage(named: "Layout 1"), for: .normal)
-        downLargeButton.setImage(UIImage(named: "Layout 2"), for: .normal)
-        showFourButton.setImage(UIImage(named: "Selected"), for: .normal)
-    }
-    
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         blueFrame.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
@@ -50,14 +44,94 @@ class ViewController: UIViewController {
         blueFrame.layer.shadowRadius = 2
         blueFrame.layer.masksToBounds = false
         blueFrame.layer.cornerRadius = 4
-        // Do any additional setup after loading the view.
     }
+    
+    // MARK: - Layout Management
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        if UIDevice.current.orientation.isLandscape {
+            swipeLabel.text = " Swipe left to share"
+        }
+        else {
+            swipeLabel.text = " Swipe up to share"
+        }
+    }
+    
+    // Functions to hide the proper Blue frame button to reproduce the image display
+    @IBAction private func layoutUpLargeTouchUpInside() {
+        topLeftButton.isHidden = true
+        bottomLeftButton.isHidden = false
+        layoutUpLargeButton.setImage(UIImage(named: "Selected"), for: .normal)
+        layoutDownLargeButton.setImage(nil, for: .normal)
+        layoutFourButton.setImage(nil, for: .normal)
+    }
+    
+    @IBAction private func layoutDownLargeTouchUpInside() {
+        topLeftButton.isHidden = false
+        bottomLeftButton.isHidden = true
+        layoutUpLargeButton.setImage(nil, for: .normal)
+        layoutDownLargeButton.setImage(UIImage(named: "Selected"), for: .normal)
+        layoutFourButton.setImage(nil, for: .normal)
+    }
+    
+    @IBAction private func layoutFourTouchUpInside() {
+        topLeftButton.isHidden = false
+        bottomLeftButton.isHidden = false
+        layoutUpLargeButton.setImage(nil, for: .normal)
+        layoutDownLargeButton.setImage(nil, for: .normal)
+        layoutFourButton.setImage(UIImage(named: "Selected"), for: .normal)
+    }
+    
+    // MARK: - Image Selection
+    // Functions to select an image when tapping one of the Blue frame buttons
+    @IBAction private func topLeftTouchUpInside() {
+        selectedButton = topLeftButton
+        present(imagePickerController, animated: true, completion: nil)
+    }
+    
+    @IBAction private func topRightTouchUpInside() {
+        selectedButton = topRightButton
+        present(imagePickerController, animated: true, completion: nil)
+    }
+    
+    @IBAction private func bottomLeftTouchUpInside() {
+        selectedButton = bottomLeftButton
+        present(imagePickerController, animated: true, completion: nil)
+    }
+    
+    @IBAction private func bottomRightTouchUpInside() {
+        selectedButton = bottomRightButton
+        present(imagePickerController, animated: true, completion: nil)
+    }
+    
+    //Pick image and display Uipickerviewcontroler and UiActivitycontroler
+    @IBAction private func swipToShare(_ sender: UISwipeGestureRecognizer) {
+        let image = blueFrame.toImage()
+        let swipeController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+        present(swipeController, animated: true, completion: nil)
+    }
+}
 
+extension ViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    internal func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let selectedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
+            selectedButton?.setImage(selectedImage, for: .normal)
+        }
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController){
+        picker.dismiss(animated: true, completion: nil)
+    }
+}
 
-/*
- Create a link with views - Done
- Behaviour of the views based on the hidden property - Done
- One image in the new uiviews will link to a hidden property of one particular button - Done
- */
+extension UIView {
+    func toImage() -> UIImage {
+        let renderer = UIGraphicsImageRenderer(size: self.bounds.size)
+        let image = renderer.image { ctx in
+            self.drawHierarchy(in: self.bounds, afterScreenUpdates: true)
+        }
+        return image
+    }
 }
 
